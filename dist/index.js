@@ -15445,8 +15445,10 @@ let Index = function () {
     const AUTH_KEY = process.env.CUSTOM_TOKEN;
     const GITHUB_USERNAME_AND_REPOSITORY = process.env.GITHUB_REPOSITORY;
     const MAXIMUM_ERROR_ITERATIONS = 4;
-    const ALLOW_MD = process.env.ALLOW_MD || true;
-    const ALLOW_HTML = process.env.ALLOW_HTML || true;
+    const ALLOW_MD = process.env.ALLOW_MD == null ? true : process.env.ALLOW_MD;
+    const ALLOW_HTML = process.env.ALLOW_HTML == null ? true : process.env.ALLOW_HTML;
+
+    console.log(`ALLOW_MD:${ALLOW_MD} ALLOW_HTML:${ALLOW_HTML}`);
 
     let getCheckpoint = async function (locationsArray, country, checkpoint) {
         let indexOfTheCountry = locationsArray.findIndex(location => location.country === country);
@@ -15501,7 +15503,9 @@ let Index = function () {
             }
             await outputCheckpoint.saveCheckpointFile(readConfigResponseModel.locations, locationDataModel.country, readCheckpointResponseModel.checkpoint)
         }
-        if (!readConfigResponseModel.devMode && ALLOW_MD) await outputMarkdown.saveIndexMarkdownFile(createIndexPage.create(GITHUB_USERNAME_AND_REPOSITORY, readConfigResponseModel));
+        if (ALLOW_MD && !readConfigResponseModel.devMode) {
+            await outputMarkdown.saveIndexMarkdownFile(createIndexPage.create(GITHUB_USERNAME_AND_REPOSITORY, readConfigResponseModel));
+        }
     }
     let saveHtml = async function (readConfigResponseModel) {
         console.log(`########## SaveHtml ##########`);
