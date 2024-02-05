@@ -15501,7 +15501,7 @@ let Index = function () {
             }
             await outputCheckpoint.saveCheckpointFile(readConfigResponseModel.locations, locationDataModel.country, readCheckpointResponseModel.checkpoint)
         }
-        if (!readConfigResponseModel.devMode) await outputMarkdown.saveIndexMarkdownFile(createIndexPage.create(GITHUB_USERNAME_AND_REPOSITORY, readConfigResponseModel));
+        if (!readConfigResponseModel.devMode && ALLOW_MD) await outputMarkdown.saveIndexMarkdownFile(createIndexPage.create(GITHUB_USERNAME_AND_REPOSITORY, readConfigResponseModel));
     }
     let saveHtml = async function (readConfigResponseModel) {
         console.log(`########## SaveHtml ##########`);
